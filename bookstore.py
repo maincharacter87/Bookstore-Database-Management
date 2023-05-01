@@ -1,5 +1,6 @@
 # =================================== CAPSTONE PROJECT: BOOKSTORE ===================================
 
+# Import
 import sqlite3
 
 # Create a database called ebookstore
@@ -48,7 +49,7 @@ def update_book():
         title_ = input("Enter the updated title: ")
         cursor.execute('''UPDATE books SET title = ? WHERE title = ?''', (title_, id_))
         db.commit()
-        print("Book title updated.")
+        print("Book title updated.") # Success message
     elif choice == "2":
         author_ = input("Enter the updated author: ")
         cursor.execute('''UPDATE books SET author = ? WHERE id = ?''', (author_, id_))
