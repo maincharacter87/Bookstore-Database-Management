@@ -19,15 +19,23 @@ book_data = [(3001, "A Tale of Two Cities", "Charles Dickens", 30), (3002, "Harr
 cursor.executemany('''INSERT INTO books VALUES(?,?,?,?)''', book_data)
 db.commit()
 
-# Enter a new book function
 def enter_book():
-      id_ = int(input("Enter the book ID: "))
-      title_ = input("Enter the book ttle: ")
-      author_ = input("Enter the book author: ")
-      qty_ = int(input("Enter the quantity of books: "))
-      cursor.execute('''INSERT INTO books(id, title, author, qty) VALUES(?,?,?,?)''', (id_, title_, author_, qty_))
-      db.commit()
-      print("Book successfully entered.")
+    id_ = int(input("Enter the book ID: "))
+
+    # Check if the book already exists in the database
+    cursor.execute("SELECT * FROM books WHERE id = ?", (id_,))
+    existing_book = cursor.fetchone()
+    if existing_book is not None:
+        print("Book already exists in the database.")
+        return
+
+    title_ = input("Enter the book title: ")
+    author_ = input("Enter the book author: ")
+    qty_ = int(input("Enter the quantity of books: "))
+
+    cursor.execute('''INSERT INTO books(id, title, author, qty) VALUES(?,?,?,?)''', (id_, title_, author_, qty_))
+    db.commit()
+    print("Book successfully entered.")
 
 # Update a book function
 def update_book():
