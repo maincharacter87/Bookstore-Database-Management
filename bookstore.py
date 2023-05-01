@@ -31,6 +31,14 @@ def enter_book():
 # Update a book function
 def update_book():
     id_ = int(input("Enter the ID of the book you would like to update: "))
+
+    # Check if the book exists in the database
+    cursor.execute("SELECT * FROM books WHERE id = ?", (id_,))
+    book = cursor.fetchone()
+    if book is None:
+        print("Book not found in the database.")
+        return
+    
     choice = input('''
     What would you like to update (select 1, 2, or 3):
     1.  Title
@@ -57,6 +65,13 @@ def update_book():
 # Delete a book function
 def delete_book():
     id_ = int(input("Enter the ID of the book to delete: "))
+    # Check if the book exists in the database
+    cursor.execute("SELECT * FROM books WHERE id = ?", (id_,))
+    book = cursor.fetchone()
+    if book is None:
+        print("Book not found in the database.")
+        return
+    
     cursor.execute('''DELETE FROM books WHERE id = ?''', (id_,))
     db.commit()
     print("Book deleted.")
@@ -65,6 +80,13 @@ def delete_book():
 def search_book():
     choice = int(input('''
     Enter the book ID: ''').strip())
+        # Check if the book exists in the database
+    cursor.execute("SELECT * FROM books WHERE id = ?", (id_,))
+    book = cursor.fetchone()
+    if book is None:
+        print("Book not found in the database.")
+        return
+    
     cursor.execute('''SELECT id, title, author, qty FROM books WHERE id = ?''', (choice,))
     book = cursor.fetchone()
     print(book)
